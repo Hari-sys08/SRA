@@ -319,7 +319,37 @@ $("#memeFile").addEventListener("change", async event => {
       "Blob upload is prepared, but the upload route is not deployed yet.";
   }
 });
+async function registerVisit() {
+    // Don't count the same browser session twice
+    if (sessionStorage.getItem("sra_visit_counted")) {
+        return;
+    }
 
+    try {
+        const response = await fetch("/edge-functions/api/sra-health");
+
+        if (!response.ok) {
+            throw new Error("Visit API failed");
+        }
+
+        const data = await response.json();
+
+        // Mark this session as counted
+        sessionStorage.setItem("sra_visit_counted", "true");
+
+        // Update visitor counter if one exists
+        const counter = document.getElementById("visit-count");
+
+        if (counter && data.visitCount !== undefined) {
+            counter.textContent = data.visitCount.toLocaleString();
+        }
+
+    } catch (error) {
+        console.error("Visitor counter error:", error);
+    }
+}
+
+registerVisit();
 renderPolls();
 renderMemes();
 updateStats();
