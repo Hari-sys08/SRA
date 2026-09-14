@@ -1,11 +1,11 @@
 export async function onRequestGet({ request, params, env }) {
     try {
-        const visitCount = await MY_KV.get("visitCount");
+        const visitCount = await SRA_KV.get("visitCount");
 
         let visitCountInt = Number(visitCount || 0);
         visitCountInt += 1;
 
-        await MY_KV.put("visitCount", String(visitCountInt));
+        await SRA_KV.put("visitCount", String(visitCountInt));
 
         return new Response(
             JSON.stringify({
