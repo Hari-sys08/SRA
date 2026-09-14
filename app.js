@@ -338,7 +338,7 @@ async function registerVisit() {
         sessionStorage.setItem("sra_visit_counted", "true");
 
         // Update visitor counter if one exists
-        const counter = document.getElementById("visit-count");
+        const counter = document.getElementById("statVisits");
 
         if (counter && data.visitCount !== undefined) {
             counter.textContent = data.visitCount.toLocaleString();
