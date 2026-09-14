@@ -1,22 +1,38 @@
-export async function onRequest({ env }) {
-  try {
-    await env.SRA_KV.put("sra_test", "KV connection successful");
+export async function onRequestGet({ request, params, env }) {
+    try {
+        const visitCount = await MY_KV.get("visitCount");
 
-    const value = await env.SRA_KV.get("sra_test");
+        let visitCountInt = Number(visitCount || 0);
+        visitCountInt += 1;
 
-    return Response.json({
-      ok: true,
-      kv: true,
-      value
-    });
-  } catch (error) {
-    return Response.json(
-      {
-        ok: false,
-        kv: false,
-        error: error.message
-      },
-      { status: 500 }
-    );
-  }
+        await MY_KV.put("visitCount", String(visitCountInt));
+
+        return new Response(
+            JSON.stringify({
+                status: "ok",
+                visitCount: visitCountInt
+            }),
+            {
+                status: 200,
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                    "Access-Control-Allow-Origin": "*"
+                }
+            }
+        );
+    } catch (error) {
+        return new Response(
+            JSON.stringify({
+                status: "error",
+                message: error.message
+            }),
+            {
+                status: 500,
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                    "Access-Control-Allow-Origin": "*"
+                }
+            }
+        );
+    }
 }
