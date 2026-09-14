@@ -241,23 +241,28 @@ $("#submissionForm").addEventListener("submit", async event => {
 
   try {
     const response = await fetch("/api/sra-submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
     });
 
+    const result = await response.json();
+
     if (!response.ok) {
-      throw new Error("KV is not active");
+        throw new Error(result.message || "Submission failed");
     }
 
     form.reset();
+
     status.textContent = "Sent. Thanks for adding to the board.";
-  } catch {
+    showToast("Got it. Added to the queue.");
+
+} catch (error) {
     status.textContent =
-      "The form is ready. Saving will activate after KV approval.";
-  }
+        error.message || "Couldn't send that right now.";
+}
 });
 
 $("#memeFile").addEventListener("change", async event => {
