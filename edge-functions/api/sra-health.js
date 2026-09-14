@@ -1,8 +1,8 @@
-export async function onRequest({ SRA_KV }) {
+export async function onRequest({ env }) {
   try {
-    await SRA_KV.put("sra_test", "KV connection successful");
+    await env.SRA_KV.put("sra_test", "KV connection successful");
 
-    const value = await SRA_KV.get("sra_test");
+    const value = await env.SRA_KV.get("sra_test");
 
     return Response.json({
       ok: true,
