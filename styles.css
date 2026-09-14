@@ -60,14 +60,11 @@ textarea {
   letter-spacing: -0.04em;
 }
 
-.brand-mark {
-  width: 31px;
-  height: 31px;
-  display: grid;
-  place-items: center;
-  border: 2px solid var(--ink);
+.brand-logo {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
   border-radius: 9px;
-  font-size: 0.83rem;
 }
 
 nav {
