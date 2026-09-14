@@ -326,7 +326,7 @@ async function registerVisit() {
     }
 
     try {
-        const response = await fetch("/edge-functions/api/sra-health");
+        const response = await fetch("/api/sra-health");
 
         if (!response.ok) {
             throw new Error("Visit API failed");
