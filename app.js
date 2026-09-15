@@ -353,7 +353,62 @@ async function registerVisit() {
         console.error("Visitor counter error:", error);
     }
 }
+const moods = [
+  "Can this period just end?",
+  "One more free period, please.",
+  "The homework is personal at this point.",
+  "Mentally already on holiday.",
+  "Running on snacks and hope.",
+  "The canteen deserves five stars.",
+  "Today feels like a Monday.",
+  "We need a surprise holiday.",
+  "Present physically, absent mentally.",
+  "Just waiting for the bell.",
+  "The timetable is my biggest enemy.",
+  "Academic comeback loading..."
+];
 
+function getRandomMood() {
+  const randomIndex = Math.floor(Math.random() * moods.length);
+  return `“${moods[randomIndex]}”`;
+}
+
+function updateNoticeDate() {
+  const dateElement = document.querySelector("#currentDate");
+
+  if (!dateElement) {
+    return;
+  }
+
+  const today = new Date();
+
+  const day = String(today.getDate()).padStart(2, "0");
+
+  const month = today
+    .toLocaleString("en-IN", {
+      month: "short"
+    })
+    .toUpperCase();
+
+  dateElement.textContent = `${day} ${month}`;
+}
+
+updateNoticeDate();
+
+function updateNoticeCard() {
+  const dateElement = document.querySelector("#randomDate");
+  const moodElement = document.querySelector("#randomMood");
+
+  if (dateElement) {
+    dateElement.textContent = getRandomRecentDate();
+  }
+
+  if (moodElement) {
+    moodElement.textContent = getRandomMood();
+  }
+}
+
+updateNoticeCard();
 registerVisit();
 renderPolls();
 renderMemes();
